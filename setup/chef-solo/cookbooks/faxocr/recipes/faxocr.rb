@@ -5,6 +5,7 @@ git "cloning faxocr" do
   action :sync
   user "root"
   group "root"
+  revision node[:faxocr][:branch]
 end
 
 bash "change the owner of faxocr's home directory to faxocr" do

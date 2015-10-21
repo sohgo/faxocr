@@ -23,6 +23,7 @@
 	},
 	"faxocr": {
 		"setup_mode": "initial_setup",
+		"branch": "rails_update",
 		"rails_mode": "production"
 	},
 	"run_list": [
