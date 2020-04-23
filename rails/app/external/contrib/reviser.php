@@ -144,6 +144,11 @@ define('Type_FILEPASS', 0x2f);
 define('Type_XCT', 0x59);
 define('Type_CRN', 0x5a);
 
+function dd($msg)
+{
+	file_put_contents("/tmp/phpdebug.log", $msg, FILE_APPEND);
+}
+
 /**
 * Class for regenerating Excel Spreadsheets
 * @package Excel_Reviser
@@ -242,9 +247,11 @@ class Excel_Reviser
 		$this->globaldat['name']='';
 		$this->globaldat['namerecord']='';
 		$this->globaldat['exsstbin']='';
+		dd("reviser:Excel_Reviser::__construct()\n");
 	}
 
 	function Excel_Reviser(){
+		dd("reviser:Excel_Reviser::Excel_Reviser()\n");
 		self::__construct();
 	}
 
@@ -1412,6 +1419,7 @@ $tmp.=$this->_makeImageOBJ($sn);
 			$tmp.=$this->sheetbin[$sno]['tail'];
 		} else {
 			if ($this->opt_ref3d){
+				dd("reviser:_makeSheet:ereg_replace()\n");
 				$search='/5110130001020000b0000b003b..../';
 				$change='5110130001020000b0000b003b'.bin2hex(pack("v",$ref));
 				$this->sheetbin[$sno]['preMG']=pack("H*",preg_replace($search,$change,bin2hex($this->sheetbin[$sno]['preMG'])));
@@ -2227,6 +2235,7 @@ $tmp.=$this->_makeImageOBJ($sn);
 	function asc2utf($ascii){
 		$utfname='';
 		for ($i = 0; $i < strlen($ascii); $i++) {
+			dd("reviser:asc2utf():array\n");
 			$utfname.=$ascii[$i]."\x00";
 		}
 		return $utfname;
@@ -2804,11 +2813,13 @@ $tmp.=$this->_makeImageOBJ($sn);
 				}
 				if ($this->Flag_Magic_Quotes) {
 					if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+						dd("reviser:_addImage():set_magic_quotes_runtime()\n");
 						set_magic_quotes_runtime(false);
 					} else {
 						//Doesn't exist in PHP 5.4, but we don't need to check because
 						//get_magic_quotes_runtime always returns false in 5.4+
 						//so it will never get here
+						dd("reviser:_addImage():set_magic_quotes_runtime():ini_set\n");
 						ini_set('magic_quotes_runtime', false);
 					}
 				}
@@ -2816,11 +2827,13 @@ $tmp.=$this->_makeImageOBJ($sn);
 				fclose($bmh);
 				if ($this->Flag_Magic_Quotes) {
 					if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+						dd("reviser:_addImage():set_magic_quotes_runtime()\n");
 						set_magic_quotes_runtime($this->Flag_Magic_Quotes);
 					} else {
 						//Doesn't exist in PHP 5.4, but we don't need to check because
 						//get_magic_quotes_runtime always returns false in 5.4+
 						//so it will never get here
+						dd("reviser:_addImage():set_magic_quotes_runtime():ini_set\n");
 						ini_set('magic_quotes_runtime', $this->Flag_Magic_Quotes);
 					}
 				}
@@ -2954,8 +2967,12 @@ class ErrMess {
 	* @param string $message Error message
 	* @access public
 	*/
-    function __construct($message){$this->message = $message;}
-    function ErrMess($message){self::__construct($message);}
+    function __construct($message){$this->message = $message;
+	dd("peruser:ErrMess::__construct()\n");
+    }
+    function ErrMess($message){self::__construct($message);
+	dd("peruser:ErrMess::ErrMess()\n");
+    }
 	/**
 	* @return string Error message
 	* @access public

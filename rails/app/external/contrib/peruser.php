@@ -89,6 +89,11 @@ define('Type_MERGEDCELLS', 0xe5);
 define('Type_HLINK', 0x1b8);
 define('Const_fontH', 16);
 
+function dd($msg)
+{
+	file_put_contents("/tmp/phpdebug.log", $msg, FILE_APPEND);
+}
+
 
 class Excel_Peruser
 {
@@ -199,10 +204,12 @@ class Excel_Peruser
 
 	function __construct(){
 		$this->charset = Default_CHARSET;
+		dd("peruser:Excel_Peruser::__construct()\n");
 	}
 
 	function Excel_Peruser(){
 		self::__construct();
+		dd("peruser:Excel_Peruser::Excel_Pedruser()\n");
 	}
 
 
@@ -234,22 +241,26 @@ class Excel_Peruser
 		$this->Flag_Magic_Quotes = get_magic_quotes_runtime();
 		if ($this->Flag_Magic_Quotes) {
 			if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+				dd("peruser:_oleread():set_magic_quotes_runtime()\n");
 				set_magic_quotes_runtime(false);
 			} else {
 				//Doesn't exist in PHP 5.4, but we don't need to check because
 				//get_magic_quotes_runtime always returns false in 5.4+
 				//so it will never get here
+				dd("peruser:_oleread():set_magic_quotes_runtime():ini_set\n");
 				ini_set('magic_quotes_runtime', false);
 			}
 		}
 		$ole_data = @file_get_contents($Fname);
 		if ($this->Flag_Magic_Quotes) {
 			if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+				dd("peruser:_oleread():set_magic_quotes_runtime()\n");
 				set_magic_quotes_runtime($this->Flag_Magic_Quotes);
 			} else {
 				//Doesn't exist in PHP 5.4, but we don't need to check because
 				//get_magic_quotes_runtime always returns false in 5.4+
 				//so it will never get here
+				dd("peruser:_oleread():set_magic_quotes_runtime():ini_set\n");
 				ini_set('magic_quotes_runtime', $this->Flag_Magic_Quotes);
 			}
 		}
@@ -1745,10 +1756,12 @@ if (!isset($this->recXF[$cell['xf']]['formindex'])) $this->recXF[$cell['xf']]['f
 		$str=mb_ereg_replace ('&Z', $path ,$str);
 		$str=mb_ereg_replace ('&G', '' ,$str);
 		if (preg_match('/.*&R(.*)$/',$str)){
+			dd("peruser:sepaheadfoot():preg_match()\n");
 			$s['right'] = mb_ereg_replace ('.*&R(.*)$', "\\1" ,$str);
 			$str= mb_ereg_replace ("&R.*$", "" ,$str);
 		}
 		if (preg_match("/.*&C(.*)$/",$str)){
+			dd("peruser:sepaheadfoot():preg_match()\n");
 			$s['center'] = mb_ereg_replace ('.*&C(.*)$', "\\1" ,$str);
 			$str= mb_ereg_replace ('&C.*$', '' ,$str);
 		}
@@ -2013,8 +2026,12 @@ if (!isset($this->recXF[$cell['xf']]['formindex'])) $this->recXF[$cell['xf']]['f
 */
 class ErrMess {
     var $message = '';
-    function __construct($message){$this->message = $message;}
-    function ErrMess($message){self::__construct($message);}
+    function __construct($message){$this->message = $message;
+	dd("peruser:ErrMess::__construct()\n");
+    }
+    function ErrMess($message){self::__construct($message);
+	dd("peruser:ErrMess::ErrMess()\n");
+    }
     function getMessage() {return ($this->message);}
 }
 
