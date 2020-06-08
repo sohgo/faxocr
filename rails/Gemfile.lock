@@ -12,7 +12,6 @@ GEM
       activesupport (= 2.3.18)
     activesupport (2.3.18)
     json (1.8.1)
-    mysql (2.9.0)
     rack (1.1.6)
     rails (2.3.18)
       actionmailer (= 2.3.18)
@@ -24,12 +23,16 @@ GEM
     rake (0.8.7)
     rdoc (4.1.1)
       json (~> 1.4)
+    ruby-mysql (2.9.14)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  mysql
   rails (= 2.3.18)
   rake
   rdoc
+  ruby-mysql
+
+BUNDLED WITH
+   1.17.3
