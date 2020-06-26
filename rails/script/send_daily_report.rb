@@ -74,8 +74,8 @@ if time !~ /\A\d{2}\d{2}\d{2}\z/
 end
 
 config_db = "#{rails_prefix}/config/database.yml"
-db_env = :development
-ActiveRecord::Base.configurations = YAML.load_file(config_db)
+db_env = ENV['RAILS_ENV'] && ENV['RAILS_ENV'].intern || ENV['RACK_ENV'] && ENV['RACK_ENV'].intern || :development
+ActiveRecord::Base.configurations = YAML.load(ERB.new(Pathname.new(config_db).read).result)
 ActiveRecord::Base.establish_connection(db_env)
 Time::DATE_FORMATS[:date_nomal] = "%Y/%m/%d"
 Time::DATE_FORMATS[:date_jp] = "%Y年%m月%d日"
