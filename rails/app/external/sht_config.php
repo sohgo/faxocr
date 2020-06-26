@@ -460,6 +460,7 @@ function put_rails($file_id, $sheet_marker, $rails_env, &$conf)
 require "rubygems"
 require "active_record"
 require "yaml"
+require "erb"
 
 rails_prefix = ARGV[0] || "./"
 group = ARGV[1] || exit(0)
@@ -469,7 +470,7 @@ config_db = rails_prefix + "/config/database.yml"
 db_env = "{$rails_env}" || "development" # XXX
 cellinfo = Hash.new()
 
-ActiveRecord::Base.configurations = YAML.load_file(config_db)
+ActiveRecord::Base.configurations = YAML.load(ERB.new(Pathname.new(config_db).read).result)
 ActiveRecord::Base.establish_connection(db_env)
 
 Dir.glob(rails_prefix + '/app/models/*.rb').each do |model|
@@ -596,16 +597,16 @@ end
 # sheet_property generation
 #
 survey_properties = @survey.survey_properties
-survey_properties.each do |@survey_property|
+survey_properties.each do |survey_property|
 
-  prop = cellinfo[@survey_property.id]
+  prop = cellinfo[survey_property.id]
   if prop.nil? then
     next
   end
   # survey_propertyからコピー
   sheet_property = SheetProperty.new
   sheet_property.sheet_id = @sheet.object_id
-  sheet_property.survey_property_id = @survey_property.id
+  sheet_property.survey_property_id = survey_property.id
   sheet_property.position_x = prop[0]
   sheet_property.position_y = prop[1]
   sheet_property.colspan = prop[2]
