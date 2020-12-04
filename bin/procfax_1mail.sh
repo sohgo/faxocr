@@ -67,7 +67,6 @@ fi
 #
 is_faximo=`grep "faximo.jp" "$mail_file" | head -1`
 is_messageplus=`grep "everynet.jp" "$mail_file" | head -1`
-is_bizfax=`grep "050fax.jp" "$mail_file" | head -1`
 srhelper_fax_mode="faximo"
 if [ "$is_faximo" != "" ]; then
 	srhelper_fax_mode="faximo"
@@ -75,10 +74,7 @@ fi
 if [ "$is_messageplus" != "" ]; then
 	srhelper_fax_mode="messageplus"
 fi
-if [ "$is_bizfax" != "" ]; then
-	srhelper_fax_mode="bizfax"
-fi
-if [ x"$DEBUG_MODE" != x'true' -a x"$is_faximo" = x"" -a x"$is_messageplus" = x"" -a x"$is_bizfax" = x"" ]; then
+if [ x"$DEBUG_MODE" != x'true' -a x"$is_faximo" = x"" -a x"$is_messageplus" = x"" ]; then
 	show_error_message FAX: ERROR: cannot recognize a fax service from Mail
 	fax_error_happens_flag=1
 fi

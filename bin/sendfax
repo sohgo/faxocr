@@ -6,9 +6,6 @@
 #
 # % sendfax fax_number subject attachmentfile
 #
-# use the following if you use bizfax
-# % sendfax fax_number "" attachmentfile
-#
 
 script_dir=`dirname "$0"`
 FAXOCR_ROOT=${FAXOCR_ROOT:="`(cd "$script_dir" && cd .. && pwd)`"}
@@ -29,10 +26,6 @@ cd "$FAXOCR_ROOT"
 echo "`date +%Y/%m/%d\ %H:%M:%S` to=$FAX_NO subject=$FAX_SUBJ via=$FAX_SEND_TYPE" >> $DIR_FAX/Log/sendfax.log
 
 case "$FAX_SEND_TYPE" in
-bizfax)
-    echo $BIZFAX_LOGIN_PASSWORD | xvfb-run -a $BIZFAX_PROGRAM "$BIZFAX_LOGIN_USER" "$FAX_NO" "$BIZFAX_FAX_SIZE" "$FAX_IMG"
-    ;;
-
 faximo|messageplus)
     if [ "$SMTP_HOST" = "no" ] ; then
         sendemail -t $FAX_TO -u $FAX_SUBJ -a $FAX_IMG -f $FAX_SEND_FROM -o message-file=/dev/null

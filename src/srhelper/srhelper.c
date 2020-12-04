@@ -79,12 +79,6 @@ int main(int argc, char *argv[])
 				reg_cmp = 1;
 				service = SRHELPER_SERVICE_FAXIMO;
 			}
-			else if (strcmp(service_cstr, "bizfax") == 0)
-			{
-				regcomp(&reg, number_tag, REG_EXTENDED);
-				reg_cmp = 1;
-				service = SRHELPER_SERVICE_BIZFAX;
-			}
 			else if (strcmp(service_cstr, "messageplus") == 0)
 			{
 				if (mode == SRHELPER_MODE_FROM) {
@@ -154,21 +148,6 @@ int main(int argc, char *argv[])
 					}
 				} else {
 					if (line_len_without_phone_no == 21) {
-						cstrbuff[pmatch[0].rm_eo] = 0;
-						printf("%s", cstrbuff + pmatch[0].rm_so);
-						searching_data = 0;
-					}
-				}
-				break;
-			case SRHELPER_SERVICE_BIZFAX:
-				if (mode == SRHELPER_MODE_FROM) {
-					if (line_len_without_phone_no == 17) {
-						cstrbuff[pmatch[0].rm_eo] = 0;
-						printf("%s", cstrbuff + pmatch[0].rm_so);
-						searching_data = 0;
-					}
-				} else {
-					if (line_len_without_phone_no == 28) {
 						cstrbuff[pmatch[0].rm_eo] = 0;
 						printf("%s", cstrbuff + pmatch[0].rm_so);
 						searching_data = 0;

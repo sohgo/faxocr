@@ -78,10 +78,6 @@ fi
 
 ERROR_PDF_FILE_FOR_FAX_SENDER=${ERRORPDF:="etc/error.pdf"}
 
-if [ -z "$BIZFAX_FAX_SIZE" ] ; then
-    BIZFAX_FAX_SIZE="A4"
-fi
-
 GNU_PARALLEL_LEVEL=${JOB_PARALLEL_LEVEL:="100%"}
 
 #################
